@@ -54,6 +54,7 @@ import cn.nukkit.entity.passive.EntityOcelot;
 import cn.nukkit.entity.passive.EntityPig;
 import cn.nukkit.entity.passive.EntityRabbit;
 import cn.nukkit.entity.passive.EntitySheep;
+import cn.nukkit.entity.passive.EntityVillager;
 import cn.nukkit.entity.passive.EntityWolf;
 import cn.nukkit.entity.projectile.EntityArrow;
 import cn.nukkit.entity.projectile.EntitySnowball;
@@ -1892,6 +1893,7 @@ public class Server {
         Entity.registerEntity("Boat", EntityBoat.class);
 
         Entity.registerEntity("Lightning", EntityLightning.class);
+        Entity.registerEntity("Villager", EntityVillager.class);
     }
 
     private void registerBlockEntities() {
