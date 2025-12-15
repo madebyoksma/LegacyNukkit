@@ -764,9 +764,6 @@ public class Server {
             this.scheduler.cancelAllTasks();
             this.scheduler.mainThreadHeartbeat(Integer.MAX_VALUE);
 
-            this.getLogger().debug("Saving properties");
-            this.properties.save();
-
             this.getLogger().debug("Closing console");
             this.console.interrupt();
 
@@ -1730,6 +1727,7 @@ public class Server {
 
     public void setPropertyString(String variable, String value) {
         this.properties.set(variable, value);
+        this.properties.save();
     }
 
     public String getPropertyString(String variable) {
@@ -1750,6 +1748,7 @@ public class Server {
 
     public void setPropertyInt(String variable, int value) {
         this.properties.set(variable, value);
+        this.properties.save();
     }
 
     public boolean getPropertyBoolean(String variable) {
@@ -1773,6 +1772,7 @@ public class Server {
 
     public void setPropertyBoolean(String variable, boolean value) {
         this.properties.set(variable, value ? "1" : "0");
+        this.properties.save();
     }
 
     public PluginIdentifiableCommand getPluginCommand(String name) {
