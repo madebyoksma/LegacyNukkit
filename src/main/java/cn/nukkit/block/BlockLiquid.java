@@ -1,5 +1,8 @@
 package cn.nukkit.block;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 import cn.nukkit.entity.Entity;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
@@ -7,9 +10,6 @@ import cn.nukkit.level.particle.SmokeParticle;
 import cn.nukkit.level.sound.FizzSound;
 import cn.nukkit.math.AxisAlignedBB;
 import cn.nukkit.math.Vector3;
-
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * author: MagicDroidX
@@ -268,7 +268,7 @@ public abstract class BlockLiquid extends BlockTransparent {
 
             Block bottomBlock = this.level.getBlock(this.temporalVector.setComponents(this.x, this.y - 1, this.z));
 
-            if (bottomBlock.canBeFlowedInto() || bottomBlock instanceof BlockLiquid) {
+            if (bottomBlock.canBeFlowedInto() || (bottomBlock instanceof BlockLiquid && !(this instanceof BlockWater && bottomBlock instanceof BlockWater))) {
                 if (this instanceof BlockLava && bottomBlock instanceof BlockWater) {
                     this.getLevel().setBlock(bottomBlock, new BlockStone(), true);
                     this.triggerLavaMixEffects(bottomBlock);
