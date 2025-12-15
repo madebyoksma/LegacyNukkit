@@ -1,5 +1,9 @@
 package cn.nukkit.item.enchantment;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.concurrent.ThreadLocalRandom;
+
 import cn.nukkit.entity.Entity;
 import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.item.Item;
@@ -13,11 +17,11 @@ import cn.nukkit.item.enchantment.damage.EnchantmentDamageSmite;
 import cn.nukkit.item.enchantment.loot.EnchantmentLootDigging;
 import cn.nukkit.item.enchantment.loot.EnchantmentLootFishing;
 import cn.nukkit.item.enchantment.loot.EnchantmentLootWeapon;
-import cn.nukkit.item.enchantment.protection.*;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.concurrent.ThreadLocalRandom;
+import cn.nukkit.item.enchantment.protection.EnchantmentProtectionAll;
+import cn.nukkit.item.enchantment.protection.EnchantmentProtectionExplosion;
+import cn.nukkit.item.enchantment.protection.EnchantmentProtectionFall;
+import cn.nukkit.item.enchantment.protection.EnchantmentProtectionFire;
+import cn.nukkit.item.enchantment.protection.EnchantmentProtectionProjectile;
 
 /**
  * author: MagicDroidX
@@ -124,14 +128,15 @@ public abstract class Enchantment implements Cloneable {
         return level;
     }
 
-    public void setLevel(int level) {
+    public Enchantment setLevel(int level) {
         this.setLevel(level, true);
+        return this;
     }
 
-    public void setLevel(int level, boolean safe) {
+    public Enchantment setLevel(int level, boolean safe) {
         if (!safe) {
             this.level = level;
-            return;
+            return this;
         }
 
         if (level > this.getMaxLevel()) {
@@ -141,6 +146,7 @@ public abstract class Enchantment implements Cloneable {
         } else {
             this.level = level;
         }
+        return this;
     }
 
     public int getId() {
