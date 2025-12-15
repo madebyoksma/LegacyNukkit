@@ -1,5 +1,8 @@
 package cn.nukkit.entity;
 
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
+
 import cn.nukkit.Player;
 import cn.nukkit.entity.data.PositionEntityData;
 import cn.nukkit.entity.data.Skin;
@@ -13,9 +16,6 @@ import cn.nukkit.nbt.tag.ListTag;
 import cn.nukkit.network.protocol.AddPlayerPacket;
 import cn.nukkit.network.protocol.RemovePlayerPacket;
 import cn.nukkit.utils.Utils;
-
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 
 /**
  * author: MagicDroidX
@@ -90,7 +90,7 @@ public class EntityHuman extends EntityCreature implements InventoryHolder {
     protected void initEntity() {
         this.setDataFlag(DATA_PLAYER_FLAGS, DATA_PLAYER_FLAG_SLEEP, false);
 
-        this.setDataProperty(new PositionEntityData(DATA_PLAYER_BED_POSITION, 0, 0, 0));
+        this.setDataProperty(new PositionEntityData(DATA_PLAYER_BED_POSITION, 0, 0, 0), false);
 
         this.inventory = new PlayerInventory(this);
         if (this instanceof Player) {

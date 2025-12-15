@@ -1060,11 +1060,15 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
 
     @Override
     public boolean setDataProperty(EntityData data) {
+        return setDataProperty(data, true);
+    }
+
+    @Override
+    public boolean setDataProperty(EntityData data, boolean send) {
         if (super.setDataProperty(data)) {
-            this.sendData(this, new EntityMetadata().put(this.getDataProperty(data.getId())));
+            if (send) this.sendData(this, new EntityMetadata().put(this.getDataProperty(data.getId())));
             return true;
         }
-
         return false;
     }
 
@@ -1755,6 +1759,7 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                 this.displayName = this.username;
                 this.setNameTag(this.username);
                 this.iusername = this.username.toLowerCase();
+                this.setDataProperty(new StringEntityData(this.DATA_NAMETAG, this.username), false);
 
                 if (this.server.getOnlinePlayers().size() >= this.server.getMaxPlayers() && this.kick("disconnectionScreen.serverFull", false)) {
                     break;
@@ -2268,7 +2273,7 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                         this.setSneaking(false);
 
                         this.extinguish();
-                        this.setDataProperty(new ShortEntityData(Player.DATA_AIR, 300));
+                        this.setDataProperty(new ShortEntityData(Player.DATA_AIR, 300), false);
                         this.deadTicks = 0;
                         this.noDamageTicks = 60;
 
