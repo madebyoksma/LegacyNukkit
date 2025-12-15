@@ -92,10 +92,6 @@ public class RCONServer extends Thread {
                     SelectionKey key = selectedKeys.next();
                     selectedKeys.remove();
 
-                    if (!key.isValid()) {
-                        continue;
-                    }
-
                     if (key.isAcceptable()) {
                         ServerSocketChannel serverSocketChannel = (ServerSocketChannel) key.channel();
 
@@ -141,6 +137,9 @@ public class RCONServer extends Thread {
             if (this.rconSessions.contains(channel)) {
                 this.rconSessions.remove(channel);
             }
+            if (this.sendQueues.containsKey(channel)) {
+                this.sendQueues.remove(channel);
+            }
             return;
         }
 
@@ -149,6 +148,9 @@ public class RCONServer extends Thread {
             channel.close();
             if (this.rconSessions.contains(channel)) {
                 this.rconSessions.remove(channel);
+            }
+            if (this.sendQueues.containsKey(channel)) {
+                this.sendQueues.remove(channel);
             }
             return;
         }
@@ -191,8 +193,20 @@ public class RCONServer extends Thread {
             List<RCONPacket> queue = this.sendQueues.get(channel);
 
             ByteBuffer buffer = queue.get(0).toBuffer();
-            channel.write(buffer);
-            queue.remove(0);
+            try {
+                channel.write(buffer);
+                queue.remove(0);
+            } catch (IOException exception) {
+                key.cancel();
+                channel.close();
+                if (this.rconSessions.contains(channel)) {
+                    this.rconSessions.remove(channel);
+                }
+                if (this.sendQueues.containsKey(channel)) {
+                    this.sendQueues.remove(channel);
+                }
+                return;
+            }
 
             if (queue.isEmpty()) {
                 this.sendQueues.remove(channel);
@@ -203,6 +217,9 @@ public class RCONServer extends Thread {
     }
 
     private void send(SocketChannel channel, RCONPacket packet) {
+        if (!channel.keyFor(this.selector).isValid()) {
+            return;
+        }
         synchronized (this.sendQueues) {
             List<RCONPacket> queue = sendQueues.get(channel);
             if (queue == null) {
