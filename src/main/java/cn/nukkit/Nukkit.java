@@ -25,7 +25,7 @@ public class Nukkit {
 
     public final static String VERSION = "1.0dev";
     public final static String API_VERSION = "1.0.0";
-    public final static String CODENAME = "蘋果(Apple)派(Pie)";
+    public final static String CODENAME = "東京(Tokyo)薔薇(Rose)";
     public final static String MINECRAFT_VERSION = "v0.14.3 alpha";
     public final static String MINECRAFT_VERSION_NETWORK = "0.14.3";
 
@@ -47,7 +47,7 @@ public class Nukkit {
             }
         }
 
-        //启动参数
+        //Startup arguments
         for (String arg : args) {
             switch (arg) {
                 case "disable-ansi":
