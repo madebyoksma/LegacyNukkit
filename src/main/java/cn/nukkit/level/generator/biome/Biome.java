@@ -1,13 +1,13 @@
 package cn.nukkit.level.generator.biome;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import cn.nukkit.block.Block;
 import cn.nukkit.level.ChunkManager;
 import cn.nukkit.level.generator.populator.Populator;
 import cn.nukkit.math.NukkitRandom;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * author: MagicDroidX
@@ -74,6 +74,19 @@ public abstract class Biome {
 
     public static Biome getBiome(int id) {
         return biomes.containsKey(id) ? biomes.get(id) : biomes.get(OCEAN);
+    }
+
+    /**
+     * Get Biome by name.
+     *
+     * @param name  Name of biome. Name could contain symbol "_" instead of space
+     * @return      Biome. Null - when biome was not found
+     */
+    public static Biome getBiome (String name){
+        for (Biome biome : biomes.values()){
+            if (biome.getName().equalsIgnoreCase(name.replace("_"," "))) return biome;
+        }
+        return null;
     }
 
     public void clearPopulators() {
