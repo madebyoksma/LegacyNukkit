@@ -1,8 +1,8 @@
 package cn.nukkit.network.protocol;
 
-import cn.nukkit.entity.data.Skin;
-
 import java.util.UUID;
+
+import cn.nukkit.entity.data.Skin;
 
 /**
  * Created by on 15-10-13.
@@ -51,6 +51,10 @@ public class LoginPacket extends DataPacket {
     @Override
     public void encode() {
 
+    }
+
+    public int getProtocol() {
+        return this.protocol1;
     }
 
 }

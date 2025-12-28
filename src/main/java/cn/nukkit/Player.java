@@ -1766,8 +1766,12 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                 }
 
                 String message;
-                if (loginPacket.protocol1 != ProtocolInfo.CURRENT_PROTOCOL) {
-                    if (loginPacket.protocol1 < ProtocolInfo.CURRENT_PROTOCOL) {
+                /*if (loginPacket.protocol1 != ProtocolInfo.CURRENT_PROTOCOL) {
+                    if (loginPacket.protocol1 < ProtocolInfo.CURRENT_PROTOCOL) {*/
+                byte protocol = (byte) loginPacket.getProtocol();
+                if (!isAllowedProtocol(protocol)) {
+                    byte min = ProtocolInfo.SUPPORTED_PROTOCOLS[ProtocolInfo.SUPPORTED_PROTOCOLS.length - 1];
+                    if (protocol < min) {
                         message = "disconnectionScreen.outdatedClient";
 
                         PlayStatusPacket pk = new PlayStatusPacket();
@@ -3951,6 +3955,13 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
 
     public synchronized Locale getLocale() {
         return this.locale.get();
+    }
+
+    private boolean isAllowedProtocol(byte protocol) {
+        for (byte p : ProtocolInfo.SUPPORTED_PROTOCOLS) {
+            if (p == protocol) return true;
+        }
+        return false;
     }
 
     @Override
