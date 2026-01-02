@@ -1,9 +1,12 @@
 LegacyNukkit
-===================
+-------------
 
-LegacyNukkit is a proof-of-concept fork of the last version of Nukkit to support Minecraft: Pocket Edition 0.14.3, aiming to backport features and enchancements from later versions as well as adding additional features like 0.15.x client support. This in no means is a complete product, and should not be used in a production environment.
+LegacyNukkit is a proof-of-concept fork of the last version of Nukkit to support Minecraft: Pocket Edition 0.14.3, aiming to backport features and enchancements from later versions as well as adding exclusive features like native 0.15.x client support and allowing newer plugins to work with little to no changes.
 
-===================
+This in no means is a complete product, and should not be used in a production environment. By using this you agree that you will take appropriate measures like taking backups and not cursing the developers every time you encounter a bug. This is Minecraft: Pocket Edition Alpha after all.
+
+-------------
+
 ![nukkit](https://github.com/Nukkit/Nukkit/blob/master/images/banner.png)
 
 	This program is free software: you can redistribute it and/or modify
