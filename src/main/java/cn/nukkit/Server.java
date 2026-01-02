@@ -260,7 +260,7 @@ public class Server {
         //todo: VersionString is no longer necessary
 
         if (!new File(this.dataPath + "nukkit.yml").exists()) {
-            this.getLogger().info(TextFormat.GREEN + "Welcome! Please choose a language first!");
+            /*this.getLogger().info(TextFormat.GREEN + "Welcome! Please choose a language first!");
             try {
                 String[] lines = Utils.readFile(this.getClass().getClassLoader().getResourceAsStream("lang/language.list")).split("\n");
                 for (String line : lines) {
@@ -268,17 +268,17 @@ public class Server {
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            }
+            }*/
 
             String fallback = BaseLang.FALLBACK_LANGUAGE;
-            String language = null;
-            while (language == null) {
+            String language = fallback;
+            /*while (language == null) {
                 String lang = this.console.readLine();
                 InputStream conf = this.getClass().getClassLoader().getResourceAsStream("lang/" + lang + "/lang.ini");
                 if (conf != null) {
                     language = lang;
                 }
-            }
+            }*/
 
             InputStream advacedConf = this.getClass().getClassLoader().getResourceAsStream("lang/" + language + "/nukkit.yml");
             if (advacedConf == null) {
