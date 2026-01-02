@@ -9,12 +9,21 @@ public interface ProtocolInfo {
     /**
      * Actual Minecraft: PE protocol version
      */
-    byte CURRENT_PROTOCOL = 70;
+    byte CURRENT_PROTOCOL = 70; // this should be #1 priority in terms of support
 
     byte[] SUPPORTED_PROTOCOLS = new byte[]{
         (byte) 70, // 0.14.3
         (byte) 60, // 0.14.2
         (byte) 46, // 0.14.1
+        (byte) 45, // 0.14.0 alpha build 7 - 0.14.0
+        (byte) 44, // 0.14.0 alpha build 6
+        (byte) 43, // 0.14.0 alpha build 4 - 0.14.0 alpha build 5
+        (byte) 42, // 0.14.0 alpha build 3
+        (byte) 41, // 0.14.0 alpha build 1 - 0.14.0 alpha build 2
+        // 0.13.x
+        (byte) 39, // 0.13.2, might not work
+        (byte) 38, // 0.13.0 alpha build 3 - 0.13.1
+        (byte) 37, // 0.13.0 alpha build 1 - 0.13.0 alpha build 2
     };
 
     byte LOGIN_PACKET = (byte) 0x8f;
