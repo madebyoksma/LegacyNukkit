@@ -23,6 +23,11 @@ public abstract class DataPacket extends BinaryStream implements Cloneable {
 
     public abstract void encode();
 
+    @Override // probably important, 8529b5306f50d0b2c2eda75d932babdb7baf4578
+    public byte[] getBuffer() {
+        return super.getBuffer();
+    }
+
     @Override
     public void reset() {
         super.reset();

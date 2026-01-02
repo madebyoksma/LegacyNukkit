@@ -34,11 +34,11 @@ public class LoginPacket extends DataPacket {
         this.username = this.getString();
         this.protocol1 = this.getInt();
         this.protocol2 = this.getInt();
-        if (protocol1 < ProtocolInfo.CURRENT_PROTOCOL) {
+        /*if (protocol1 < ProtocolInfo.CURRENT_PROTOCOL) {
             this.setBuffer(null);
             this.setOffset(0);
             return;
-        }
+        } fuck whoever added this */ 
         this.clientId = this.getLong();
         this.clientUUID = this.getUUID();
         this.serverAddress = this.getString();

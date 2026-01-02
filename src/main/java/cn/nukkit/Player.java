@@ -1766,8 +1766,7 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                 }
 
                 String message;
-                /*if (loginPacket.protocol1 != ProtocolInfo.CURRENT_PROTOCOL) {
-                    if (loginPacket.protocol1 < ProtocolInfo.CURRENT_PROTOCOL) {*/
+                
                 byte protocol = (byte) loginPacket.getProtocol();
                 if (!isAllowedProtocol(protocol)) {
                     byte min = ProtocolInfo.SUPPORTED_PROTOCOLS[ProtocolInfo.SUPPORTED_PROTOCOLS.length - 1];
@@ -1793,7 +1792,7 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                 this.uuid = loginPacket.clientUUID;
                 this.rawUUID = Binary.writeUUID(this.uuid);
                 this.clientSecret = loginPacket.clientSecret;
-
+                
                 boolean valid = true;
                 int len = loginPacket.username.length();
                 if (len > 16 || len < 3) {
