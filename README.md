@@ -1,13 +1,4 @@
-LegacyNukkit
--------------
-
-LegacyNukkit is a proof-of-concept fork of the last version of Nukkit to support Minecraft: Pocket Edition 0.14.3, aiming to backport features and enchancements from later versions as well as adding exclusive features like native 0.15.x client support and allowing newer plugins to work with little to no changes.
-
-This in no means is a complete product, and should not be used in a production environment. By using this you agree that you will take appropriate measures like taking backups and not cursing the developers every time you encounter a bug. This is Minecraft: Pocket Edition Alpha after all.
-
--------------
-
-![nukkit](https://github.com/Nukkit/Nukkit/blob/master/images/banner.png)
+![legacynukkit](https://github.com/OksmaWarez/LegacyNukkit/blob/master/images/banner.png)
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU Lesser General Public License as published by
@@ -23,35 +14,30 @@ This in no means is a complete product, and should not be used in a production e
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-__A Nuclear-Powered Server Software For Minecraft: Pocket Edition__
-
-[![PayPayl donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=1323471525%40qq%2ecom&lc=US&item_name=Nukkit&currency_code=USD&bn=PP%2dDonationsBF%3apaypal%2ddonate%2dyellow%2esvg%3aNonHostedGuest)
-[![Gitter](https://img.shields.io/gitter/room/Nukkit/Nukkit.js.svg?style=flat)](https://gitter.im/Nukkit/Nukkit)
-[![Travis](https://img.shields.io/travis/Nukkit/Nukkit.svg?style=flat)](https://travis-ci.org/Nukkit/Nukkit)
+__A Nuclear-Powered Server Software For Minecraft: Pocket Edition alpha__
 
 -------------
 
-Get Nukkit
+Get LegacyNukkit
 -------------
-* __[Official Site](https://nukkit.io)__
-* __[Circle CI](https://circleci.com/gh/Nukkit/Nukkit/tree/master/)__ (**login required**)
+* __[Releases](https://github.com/OksmaWarez/LegacyNukkit/releases)__
+* __[Actions](https://github.com/OksmaWarez/LegacyNukkit/actions)__ (**login required**)
 
 Introduction
 -------------
+LegacyNukkit is an in-development fork of the last version of Nukkit to support Minecraft: Pocket Edition alpha 0.14.3, aiming to backport features and enchancements from later versions.
 
-Nukkit is nuclear-powered server software for Minecraft: Pocket Edition.
-It has a few key advantages over PocketMine-MP:
+LegacyNukkit has a few advantages over PocketMine-MP for 0.14.3:
+* Written in Java, Nukkit is faster, more stable and more portable. Run the server on anything that has a Java Runtime Environment!
+* Having a similar structure with PocketMine-MP, because of this it's easy to contribute to LegacyNukkit's development. And it is also easy to rewrite legacy PocketMine-MP plugins into Nukkit plugins.
+* Being in semi-active development, more and more features and enhancements are being backported from later versions.
 
-* Written in Java, Nukkit is faster and more stable.
-* Having a similar structure with PocketMine-MP, because of this it's easy to contribute to Nukkit's development. And it is also easy to rewrite PocketMine-MP plugins into Nukkit plugins.
-
-However, Nukkit is **not finished** yet. We welcome contributions.
+This in no means is a complete product, and should not be used in a production environment. By using this you agree that you will take appropriate measures like taking backups and not cursing the developers every time you encounter a bug. This is Minecraft: Pocket Edition Alpha after all.
 
 Build JAR file
 -------------
 - `git submodule update --init`
-- `mvn clean`
-- `mvn package`
+- `mvn clean package`
 
 Running
 -------------
@@ -66,5 +52,4 @@ Example Plugin which shows the API of Nukkit.
 
 Discussion
 -------------
-* __[Forums](https://forums.nukkit.io)__
-* __[百度 Nukkit 吧](http://tieba.baidu.com/f?kw=nukkit)__
+Maybe sometime soon...?
