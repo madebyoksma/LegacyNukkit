@@ -1,14 +1,71 @@
 package cn.nukkit.network;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import cn.nukkit.Nukkit;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
-import cn.nukkit.network.protocol.*;
+import cn.nukkit.network.protocol.AddEntityPacket;
+import cn.nukkit.network.protocol.AddItemEntityPacket;
+import cn.nukkit.network.protocol.AddPaintingPacket;
+import cn.nukkit.network.protocol.AddPlayerPacket;
+import cn.nukkit.network.protocol.AdventureSettingsPacket;
+import cn.nukkit.network.protocol.AnimatePacket;
+import cn.nukkit.network.protocol.BatchPacket;
+import cn.nukkit.network.protocol.BlockEntityDataPacket;
+import cn.nukkit.network.protocol.BlockEventPacket;
+import cn.nukkit.network.protocol.ChangeDimensionPacket;
+import cn.nukkit.network.protocol.ChunkRadiusUpdatePacket;
+import cn.nukkit.network.protocol.ContainerClosePacket;
+import cn.nukkit.network.protocol.ContainerOpenPacket;
+import cn.nukkit.network.protocol.ContainerSetContentPacket;
+import cn.nukkit.network.protocol.ContainerSetDataPacket;
+import cn.nukkit.network.protocol.ContainerSetSlotPacket;
+import cn.nukkit.network.protocol.CraftingDataPacket;
+import cn.nukkit.network.protocol.CraftingEventPacket;
+import cn.nukkit.network.protocol.DataPacket;
+import cn.nukkit.network.protocol.DisconnectPacket;
+import cn.nukkit.network.protocol.DropItemPacket;
+import cn.nukkit.network.protocol.EntityEventPacket;
+import cn.nukkit.network.protocol.ExplodePacket;
+import cn.nukkit.network.protocol.FullChunkDataPacket;
+import cn.nukkit.network.protocol.HurtArmorPacket;
+import cn.nukkit.network.protocol.InteractPacket;
+import cn.nukkit.network.protocol.LevelEventPacket;
+import cn.nukkit.network.protocol.LoginPacket;
+import cn.nukkit.network.protocol.MobArmorEquipmentPacket;
+import cn.nukkit.network.protocol.MobEquipmentPacket;
+import cn.nukkit.network.protocol.MoveEntityPacket;
+import cn.nukkit.network.protocol.MovePlayerPacket;
+import cn.nukkit.network.protocol.PlayStatusPacket;
+import cn.nukkit.network.protocol.PlayerActionPacket;
+import cn.nukkit.network.protocol.PlayerInputPacket;
+import cn.nukkit.network.protocol.PlayerListPacket;
+import cn.nukkit.network.protocol.ProtocolInfo;
+import cn.nukkit.network.protocol.RemoveBlockPacket;
+import cn.nukkit.network.protocol.RemoveEntityPacket;
+import cn.nukkit.network.protocol.RemovePlayerPacket;
+import cn.nukkit.network.protocol.ReplaceSelectedItemPacket;
+import cn.nukkit.network.protocol.RequestChunkRadiusPacket;
+import cn.nukkit.network.protocol.RespawnPacket;
+import cn.nukkit.network.protocol.SetDifficultyPacket;
+import cn.nukkit.network.protocol.SetEntityDataPacket;
+import cn.nukkit.network.protocol.SetEntityLinkPacket;
+import cn.nukkit.network.protocol.SetEntityMotionPacket;
+import cn.nukkit.network.protocol.SetPlayerGameTypePacket;
+import cn.nukkit.network.protocol.SetSpawnPositionPacket;
+import cn.nukkit.network.protocol.SetTimePacket;
+import cn.nukkit.network.protocol.StartGamePacket;
+import cn.nukkit.network.protocol.TakeItemEntityPacket;
+import cn.nukkit.network.protocol.TelemetryEventPacket;
+import cn.nukkit.network.protocol.TextPacket;
+import cn.nukkit.network.protocol.UpdateBlockPacket;
+import cn.nukkit.network.protocol.UseItemPacket;
 import cn.nukkit.utils.Binary;
 import cn.nukkit.utils.Zlib;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * author: MagicDroidX
@@ -132,6 +189,7 @@ public class Network {
         int len = data.length;
         int offset = 0;
         try {
+            List<DataPacket> packets = new ArrayList<>();
             while (offset < len) {
                 int pkLen = Binary.readInt(Binary.subBytes(data, offset, 4));
                 offset += 4;
@@ -150,17 +208,46 @@ public class Network {
                     pk.setOffset(2);
 
                     pk.decode();
-                    p.handleDataPacket(pk);
+                    packets.add(pk);
 
                     if (pk.getOffset() <= 0) {
                         return;
                     }
                 }
             }
+
+            processPackets(p, packets);
+
         } catch (Exception e) {
             if (Nukkit.DEBUG > 0) {
                 this.server.getLogger().debug("BatchPacket 0x" + Binary.bytesToHexString(packet.payload));
                 this.server.getLogger().logException(e);
+            }
+        }
+    }
+
+    /**
+     * Process packets obtained from batch packets
+     * Required to perform additional analyses and filter unnecessary packets
+     *
+     * @param packets
+     */
+    public void processPackets (Player player, List<DataPacket> packets) {
+        if (packets.isEmpty()) return;
+        List<Byte> filter = new ArrayList<>();
+        for (DataPacket packet : packets){
+            switch (packet.pid()){
+                case ProtocolInfo.USE_ITEM_PACKET:
+                    // Prevent double fire of PlayerInteractEvent
+                    if (filter.contains(ProtocolInfo.USE_ITEM_PACKET)) {
+                        filter.remove((Byte) ProtocolInfo.USE_ITEM_PACKET);
+                    } else {
+                        player.handleDataPacket(packet);
+                        filter.add(ProtocolInfo.USE_ITEM_PACKET);
+                    }
+                    break;
+                default:
+                    player.handleDataPacket(packet);
             }
         }
     }
