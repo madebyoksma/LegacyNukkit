@@ -21,6 +21,8 @@ import cn.nukkit.entity.data.EntityMetadata;
 import cn.nukkit.entity.data.IntEntityData;
 import cn.nukkit.entity.data.ShortEntityData;
 import cn.nukkit.entity.data.StringEntityData;
+import cn.nukkit.event.Timings;
+import cn.nukkit.event.TimingsHandler;
 import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.event.entity.EntityDespawnEvent;
 import cn.nukkit.event.entity.EntityLevelChangeEvent;
@@ -177,6 +179,8 @@ public abstract class Entity extends Location implements Metadatable {
 
     public boolean closed = false;
 
+    protected TimingsHandler timings;
+
     protected boolean isPlayer = false;
 
     public float getHeight() {
@@ -248,6 +252,8 @@ public abstract class Entity extends Location implements Metadatable {
         if ((chunk == null || chunk.getProvider() == null)) {
             throw new ChunkException("Invalid garbage Chunk given to Entity");
         }
+
+        this.timings = Timings.getEntityTimings(this);
 
         this.isPlayer = this instanceof Player;
         this.temporalVector = new Vector3();
@@ -811,6 +817,7 @@ public abstract class Entity extends Location implements Metadatable {
     }
 
     public boolean entityBaseTick(int tickDiff) {
+        Timings.timerEntityBaseTick.startTiming();
         this.blocksAround = null;
         this.justCreated = false;
 
@@ -820,7 +827,7 @@ public abstract class Entity extends Location implements Metadatable {
             if (!this.isPlayer) {
                 this.close();
             }
-
+            Timings.timerEntityBaseTick.stopTiming();
             return false;
         }
 
@@ -877,6 +884,8 @@ public abstract class Entity extends Location implements Metadatable {
 
         this.age += tickDiff;
         this.ticksLived += tickDiff;
+
+        Timings.timerEntityBaseTick.stopTiming();
 
         return hasUpdate;
     }
@@ -1122,6 +1131,8 @@ public abstract class Entity extends Location implements Metadatable {
             return true;
         }
 
+        Timings.entityMoveTimer.startTiming();
+
         AxisAlignedBB newBB = this.boundingBox.getOffsetBoundingBox(dx, dy, dz);
 
         AxisAlignedBB[] list = this.level.getCollisionCubes(this, newBB, false);
@@ -1144,7 +1155,7 @@ public abstract class Entity extends Location implements Metadatable {
         }
         this.isCollided = this.onGround;
         this.updateFallState(this.onGround);
-
+        Timings.entityMoveTimer.stopTiming();
         return true;
     }
 
@@ -1160,6 +1171,7 @@ public abstract class Entity extends Location implements Metadatable {
             this.onGround = this.isPlayer;
             return true;
         } else {
+            Timings.entityMoveTimer.startTiming();
 
             this.ySize *= 0.4;
 
@@ -1260,7 +1272,7 @@ public abstract class Entity extends Location implements Metadatable {
 
 
             //TODO: vehicle collision events (first we need to spawn them!)
-
+            Timings.entityMoveTimer.stopTiming();
             return true;
         }
     }

@@ -1,13 +1,57 @@
 package cn.nukkit.command;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import cn.nukkit.Server;
-import cn.nukkit.command.defaults.*;
+import cn.nukkit.command.defaults.BanCommand;
+import cn.nukkit.command.defaults.BanIpCommand;
+import cn.nukkit.command.defaults.BanListCommand;
+import cn.nukkit.command.defaults.DefaultGamemodeCommand;
+import cn.nukkit.command.defaults.DeopCommand;
+import cn.nukkit.command.defaults.DifficultyCommand;
+import cn.nukkit.command.defaults.EffectCommand;
+import cn.nukkit.command.defaults.EnchantCommand;
+import cn.nukkit.command.defaults.GamemodeCommand;
+import cn.nukkit.command.defaults.GarbageCollectorCommand;
+import cn.nukkit.command.defaults.GiveCommand;
+import cn.nukkit.command.defaults.HelpCommand;
+import cn.nukkit.command.defaults.KickCommand;
+import cn.nukkit.command.defaults.KillCommand;
+import cn.nukkit.command.defaults.ListCommand;
+import cn.nukkit.command.defaults.MeCommand;
+import cn.nukkit.command.defaults.OpCommand;
+import cn.nukkit.command.defaults.PardonCommand;
+import cn.nukkit.command.defaults.PardonIpCommand;
+import cn.nukkit.command.defaults.ParticleCommand;
+import cn.nukkit.command.defaults.PluginsCommand;
+import cn.nukkit.command.defaults.ReloadCommand;
+import cn.nukkit.command.defaults.SaveCommand;
+import cn.nukkit.command.defaults.SaveOffCommand;
+import cn.nukkit.command.defaults.SaveOnCommand;
+import cn.nukkit.command.defaults.SayCommand;
+import cn.nukkit.command.defaults.SeedCommand;
+import cn.nukkit.command.defaults.SetWorldSpawnCommand;
+import cn.nukkit.command.defaults.SpawnpointCommand;
+import cn.nukkit.command.defaults.StatusCommand;
+import cn.nukkit.command.defaults.StopCommand;
+import cn.nukkit.command.defaults.TeleportCommand;
+import cn.nukkit.command.defaults.TellCommand;
+import cn.nukkit.command.defaults.TimeCommand;
+import cn.nukkit.command.defaults.TimingsCommand;
+import cn.nukkit.command.defaults.VanillaCommand;
+import cn.nukkit.command.defaults.VersionCommand;
+import cn.nukkit.command.defaults.WeatherCommand;
+import cn.nukkit.command.defaults.WhitelistCommand;
+import cn.nukkit.command.defaults.XpCommand;
 import cn.nukkit.event.TranslationContainer;
 import cn.nukkit.utils.MainLogger;
 import cn.nukkit.utils.TextFormat;
 import cn.nukkit.utils.Utils;
-
-import java.util.*;
 
 /**
  * author: MagicDroidX
@@ -57,7 +101,7 @@ public class SimpleCommandMap implements CommandMap {
         this.register("nukkit", new SetWorldSpawnCommand("setworldspawn"));
         this.register("nukkit", new TeleportCommand("tp"));
         this.register("nukkit", new TimeCommand("time"));
-        //this.register("nukkit", new TimingsCommand("timings"));
+        this.register("nukkit", new TimingsCommand("timings"));
         this.register("nukkit", new ReloadCommand("reload"));
         this.register("nukkit", new WeatherCommand("weather"));
         this.register("nukkit", new XpCommand("xp"));
@@ -159,6 +203,8 @@ public class SimpleCommandMap implements CommandMap {
             return false;
         }
 
+        target.timings.startTiming();
+
         try {
             target.execute(sender, sentCommandLabel, args);
         } catch (Exception e) {
@@ -169,6 +215,8 @@ public class SimpleCommandMap implements CommandMap {
                 logger.logException(e);
             }
         }
+
+        target.timings.stopTiming();
 
         return true;
     }
