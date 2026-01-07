@@ -42,7 +42,7 @@ public class EffectCommand extends Command {
         Effect effect;
         try {
             effect = Effect.getEffect(Integer.parseInt(args[1]));
-        } catch (NumberFormatException a) {
+        } catch (NumberFormatException | ServerException a) {
             try {
                 effect = Effect.getEffectByName(args[1]);
             } catch (Exception e) {
