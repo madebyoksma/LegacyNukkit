@@ -6,6 +6,7 @@ import cn.nukkit.command.CommandSender;
 import cn.nukkit.event.TranslationContainer;
 import cn.nukkit.potion.Effect;
 import cn.nukkit.potion.InstantEffect;
+import cn.nukkit.utils.ServerException;
 import cn.nukkit.utils.TextFormat;
 
 /**
