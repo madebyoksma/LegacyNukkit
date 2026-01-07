@@ -4,7 +4,7 @@
 
     <name>LegacyNukkit</name>
     <groupId>cn.nukkit</groupId>
-    <artifactId>nukkit</artifactId>
+    <artifactId>legacynukkit</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
